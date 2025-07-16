@@ -36,4 +36,19 @@ public class SweetService {
         return null; // If not found
     }
 
+    public boolean purchaseSweet(int id, int qty) {
+        for (Sweet sweet : inventory) {
+            if (sweet.getId() == id) {
+                if (sweet.getQuantity() >= qty) {
+                    sweet.setQuantity(sweet.getQuantity() - qty);
+                    return true;
+                } else {
+                    return false; // Not enough stock
+                }
+            }
+        }
+        return false; // Sweet not found
+    }
+
+
 }
