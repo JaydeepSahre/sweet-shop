@@ -56,4 +56,18 @@ public class SweetServiceTest {
         assertEquals(1001, inventory.get(0).getId(), "The original sweet should still exist");
     }
 
+    @Test
+    void shouldFindSweetByName() {
+        SweetService service = new SweetService();
+
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+        service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
+
+        Sweet result = service.searchSweetByName("Gajar Halwa");
+
+        assertNotNull(result, "searchSweetByName should return a sweet object");
+        assertEquals(1002, result.getId());
+        assertEquals("Gajar Halwa", result.getName());
+    }
+
 }
