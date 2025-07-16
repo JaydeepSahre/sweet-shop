@@ -81,5 +81,19 @@ public class SweetServiceTest {
         assertNull(result, "searchSweetByName should return null when sweet is not found");
     }
 
+    @Test
+    void shouldReduceQuantityWhenSweetIsPurchased() {
+        SweetService service = new SweetService();
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+
+        boolean result = service.purchaseSweet(1001, 5);
+
+        assertTrue(result, "Purchase should succeed if quantity is available");
+
+        Sweet updated = service.searchSweetByName("Kaju Katli");
+        assertEquals(15, updated.getQuantity(), "Quantity should be reduced by 5");
+    }
+
+
 
 }
