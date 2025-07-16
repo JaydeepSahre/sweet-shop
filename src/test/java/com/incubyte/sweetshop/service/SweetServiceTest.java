@@ -94,6 +94,18 @@ public class SweetServiceTest {
         assertEquals(15, updated.getQuantity(), "Quantity should be reduced by 5");
     }
 
+    @Test
+    void shouldNotPurchaseIfInsufficientQuantity() {
+        SweetService service = new SweetService();
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 5, 50.0);
+
+        boolean result = service.purchaseSweet(1001, 10); // Ask for more than available
+
+        assertFalse(result, "Purchase should fail if not enough quantity is available");
+
+        Sweet sweet = service.searchSweetByName("Kaju Katli");
+        assertEquals(5, sweet.getQuantity(), "Quantity should remain unchanged after failed purchase");
+    }
 
 
 }
