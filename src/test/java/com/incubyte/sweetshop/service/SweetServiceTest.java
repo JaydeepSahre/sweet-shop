@@ -7,15 +7,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class SweetServiceTest {
 
     @Test
-    void shouldAddSweetToInventory() {
+    void shouldReturnAllAddedSweets() {
         SweetService service = new SweetService();
-        Sweet sweet = service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
 
-        assertNotNull(sweet);
-        assertEquals(1001, sweet.getId());
-        assertEquals("Kaju Katli", sweet.getName());
-        assertEquals("Nut-Based", sweet.getCategory());
-        assertEquals(20, sweet.getQuantity());
-        assertEquals(50.0, sweet.getPrice());
+        // Add two sweets
+        Sweet s1 = service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+        Sweet s2 = service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
+
+        // Expect getAllSweets() to return exactly those two
+        List<Sweet> all = service.getAllSweets();
+
+        assertEquals(2, all.size(), "Inventory size should be 2 after adding two sweets");
+        assertTrue(all.contains(s1), "Inventory should contain the first sweet");
+        assertTrue(all.contains(s2), "Inventory should contain the second sweet");
     }
 }
