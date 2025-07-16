@@ -22,4 +22,22 @@ public class SweetServiceTest {
         assertTrue(all.contains(s1), "Inventory should contain the first sweet");
         assertTrue(all.contains(s2), "Inventory should contain the second sweet");
     }
+
+    @Test
+    void shouldDeleteSweetById() {
+        SweetService service = new SweetService();
+
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+        service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
+
+        // Act: delete one sweet
+        boolean deleted = service.deleteSweet(1001);
+
+        assertTrue(deleted, "Sweet with ID 1001 should be deleted");
+
+        // Confirm it's removed from inventory
+        List<Sweet> remaining = service.getAllSweets();
+        assertEquals(1, remaining.size(), "Only one sweet should remain after deletion");
+        assertEquals(1002, remaining.get(0).getId(), "Remaining sweet should have ID 1002");
+    }
 }
