@@ -1,115 +1,110 @@
 package com.incubyte.sweetshop.service;
 
 import com.incubyte.sweetshop.model.Sweet;
+import com.incubyte.sweetshop.repository.InMemorySweetRepository;
+import com.incubyte.sweetshop.repository.SweetRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SweetServiceTest {
 
+    private SweetService service;
+
+    @BeforeEach
+    void setUp() {
+        SweetRepository repository = new InMemorySweetRepository();
+        service = new SweetService(repository);
+    }
+
     @Test
     void shouldReturnAllAddedSweets() {
-        SweetService service = new SweetService();
-
-        // Add two sweets
         Sweet s1 = service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
         Sweet s2 = service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
 
-        // Expect getAllSweets() to return exactly those two
         List<Sweet> all = service.getAllSweets();
 
-        assertEquals(2, all.size(), "Inventory size should be 2 after adding two sweets");
-        assertTrue(all.contains(s1), "Inventory should contain the first sweet");
-        assertTrue(all.contains(s2), "Inventory should contain the second sweet");
+        assertEquals(2, all.size());
+        assertTrue(all.contains(s1));
+        assertTrue(all.contains(s2));
     }
 
     @Test
     void shouldDeleteSweetById() {
-        SweetService service = new SweetService();
-
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
         service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
 
-        // Act: delete one sweet
         boolean deleted = service.deleteSweet(1001);
 
-        assertTrue(deleted, "Sweet with ID 1001 should be deleted");
+        assertTrue(deleted);
 
-        // Confirm it's removed from inventory
         List<Sweet> remaining = service.getAllSweets();
-        assertEquals(1, remaining.size(), "Only one sweet should remain after deletion");
-        assertEquals(1002, remaining.get(0).getId(), "Remaining sweet should have ID 1002");
+        assertEquals(1, remaining.size());
+        assertEquals(1002, remaining.get(0).getId());
     }
 
     @Test
     void deleteShouldReturnFalseWhenSweetIdNotFound() {
-        SweetService service = new SweetService();
-
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
 
-        boolean deleted = service.deleteSweet(9999); // Non-existent ID
-        assertFalse(deleted, "Should return false when trying to delete a sweet that doesn’t exist");
+        boolean deleted = service.deleteSweet(9999);
+        assertFalse(deleted);
 
-        // Confirm nothing was removed
         List<Sweet> inventory = service.getAllSweets();
-        assertEquals(1, inventory.size(), "Inventory should remain unchanged");
-        assertEquals(1001, inventory.get(0).getId(), "The original sweet should still exist");
+        assertEquals(1, inventory.size());
+        assertEquals(1001, inventory.get(0).getId());
     }
 
     @Test
     void shouldFindSweetByName() {
-        SweetService service = new SweetService();
-
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
         service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
 
         Sweet result = service.searchSweetByName("Gajar Halwa");
 
-        assertNotNull(result, "searchSweetByName should return a sweet object");
+        assertNotNull(result);
         assertEquals(1002, result.getId());
         assertEquals("Gajar Halwa", result.getName());
     }
 
     @Test
     void searchShouldReturnNullIfSweetNotFound() {
-        SweetService service = new SweetService();
-
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
 
         Sweet result = service.searchSweetByName("Rasgulla");
 
-        assertNull(result, "searchSweetByName should return null when sweet is not found");
+        assertNull(result);
     }
 
     @Test
     void shouldReduceQuantityWhenSweetIsPurchased() {
-        SweetService service = new SweetService();
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
 
         boolean result = service.purchaseSweet(1001, 5);
 
-        assertTrue(result, "Purchase should succeed if quantity is available");
+        assertTrue(result);
 
         Sweet updated = service.searchSweetByName("Kaju Katli");
-        assertEquals(15, updated.getQuantity(), "Quantity should be reduced by 5");
+        assertEquals(15, updated.getQuantity());
     }
 
     @Test
     void shouldNotPurchaseIfInsufficientQuantity() {
-        SweetService service = new SweetService();
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 5, 50.0);
 
-        boolean result = service.purchaseSweet(1001, 10); // Ask for more than available
+        boolean result = service.purchaseSweet(1001, 10);
 
-        assertFalse(result, "Purchase should fail if not enough quantity is available");
+        assertFalse(result);
 
         Sweet sweet = service.searchSweetByName("Kaju Katli");
-        assertEquals(5, sweet.getQuantity(), "Quantity should remain unchanged after failed purchase");
+        assertEquals(5, sweet.getQuantity());
     }
 
     @Test
     void shouldGenerateInventoryReportAsString() {
-        SweetService service = new SweetService();
         service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
         service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
 
@@ -121,6 +116,4 @@ public class SweetServiceTest {
 
         assertEquals(expected, report.trim());
     }
-
-
 }

@@ -1,56 +1,48 @@
 package com.incubyte.sweetshop.service;
 
 import com.incubyte.sweetshop.model.Sweet;
-import java.util.ArrayList;
+import com.incubyte.sweetshop.repository.SweetRepository;
+
 import java.util.List;
 
 public class SweetService {
 
-    private final List<Sweet> inventory = new ArrayList<>();
+    private final SweetRepository repository;
+
+    public SweetService(SweetRepository repository) {
+        this.repository = repository;
+    }
 
     public Sweet addSweet(int id, String name, String category, int quantity, double price) {
         Sweet sweet = new Sweet(id, name, category, quantity, price);
-        inventory.add(sweet);
+        repository.add(sweet);
         return sweet;
     }
 
-    public List<Sweet> getAllSweets() {
-        return inventory;
-    }
-
-    /**
-     * Deletes a sweet by its ID from the inventory.
-     * @param id the ID of the sweet to delete
-     * @return true if deleted, false if not found
-     */
     public boolean deleteSweet(int id) {
-        return inventory.removeIf(sweet -> sweet.getId() == id);
+        return repository.deleteById(id);
     }
 
     public Sweet searchSweetByName(String name) {
-        for (Sweet sweet : inventory) {
-            if (sweet.getName().equalsIgnoreCase(name)) {
-                return sweet;
-            }
-        }
-        return null; // If not found
+        return repository.findByName(name);
     }
 
     public boolean purchaseSweet(int id, int qty) {
-        for (Sweet sweet : inventory) {
-            if (sweet.getId() == id) {
-                if (sweet.getQuantity() >= qty) {
-                    sweet.setQuantity(sweet.getQuantity() - qty);
-                    return true;
-                } else {
-                    return false; // Not enough stock
-                }
-            }
+        Sweet sweet = repository.findById(id);
+        if (sweet != null && sweet.getQuantity() >= qty) {
+            sweet.setQuantity(sweet.getQuantity() - qty);
+            return true;
         }
-        return false; // Sweet not found
+        return false;
+    }
+
+    public List<Sweet> getAllSweets() {
+        return repository.findAll();
     }
 
     public String getInventoryReport() {
+        List<Sweet> inventory = repository.findAll();
+
         StringBuilder sb = new StringBuilder();
         sb.append("ID\tName\t\tCategory\t\tPrice\tQuantity\n");
 
@@ -64,6 +56,4 @@ public class SweetService {
 
         return sb.toString().trim();
     }
-
-
 }
