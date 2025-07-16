@@ -107,5 +107,20 @@ public class SweetServiceTest {
         assertEquals(5, sweet.getQuantity(), "Quantity should remain unchanged after failed purchase");
     }
 
+    @Test
+    void shouldGenerateInventoryReportAsString() {
+        SweetService service = new SweetService();
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+        service.addSweet(1002, "Gajar Halwa", "Vegetable-Based", 15, 30.0);
+
+        String report = service.getInventoryReport();
+
+        String expected = "ID\tName\t\tCategory\t\tPrice\tQuantity\n" +
+                "1001\tKaju Katli\tNut-Based\t50.0\t20\n" +
+                "1002\tGajar Halwa\tVegetable-Based\t30.0\t15";
+
+        assertEquals(expected, report.trim());
+    }
+
 
 }
