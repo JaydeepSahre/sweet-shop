@@ -3,8 +3,9 @@ package com.incubyte.sweetshop.service;
 import com.incubyte.sweetshop.model.Sweet;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
-class SweetServiceTest {
+public class SweetServiceTest {
 
     @Test
     void shouldReturnAllAddedSweets() {

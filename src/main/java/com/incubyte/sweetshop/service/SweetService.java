@@ -1,14 +1,20 @@
 package com.incubyte.sweetshop.service;
 
 import com.incubyte.sweetshop.model.Sweet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SweetService {
 
-    /**
-     * Adds a new sweet to the inventory.
-     * For now, this just returns a new Sweet instance.
-     */
+    private final List<Sweet> inventory = new ArrayList<>();
+
     public Sweet addSweet(int id, String name, String category, int quantity, double price) {
-        return new Sweet(id, name, category, quantity, price);
+        Sweet sweet = new Sweet(id, name, category, quantity, price);
+        inventory.add(sweet);
+        return sweet;
+    }
+
+    public List<Sweet> getAllSweets() {
+        return inventory;
     }
 }
