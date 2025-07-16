@@ -17,4 +17,13 @@ public class SweetService {
     public List<Sweet> getAllSweets() {
         return inventory;
     }
+
+    /**
+     * Deletes a sweet by its ID from the inventory.
+     * @param id the ID of the sweet to delete
+     * @return true if deleted, false if not found
+     */
+    public boolean deleteSweet(int id) {
+        return inventory.removeIf(sweet -> sweet.getId() == id);
+    }
 }
