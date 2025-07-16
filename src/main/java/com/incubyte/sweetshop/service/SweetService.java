@@ -50,5 +50,20 @@ public class SweetService {
         return false; // Sweet not found
     }
 
+    public String getInventoryReport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID\tName\t\tCategory\t\tPrice\tQuantity\n");
+
+        for (Sweet sweet : inventory) {
+            sb.append(sweet.getId()).append("\t")
+                    .append(sweet.getName()).append("\t")
+                    .append(sweet.getCategory()).append("\t")
+                    .append(sweet.getPrice()).append("\t")
+                    .append(sweet.getQuantity()).append("\n");
+        }
+
+        return sb.toString().trim();
+    }
+
 
 }
