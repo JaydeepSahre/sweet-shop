@@ -40,4 +40,20 @@ public class SweetServiceTest {
         assertEquals(1, remaining.size(), "Only one sweet should remain after deletion");
         assertEquals(1002, remaining.get(0).getId(), "Remaining sweet should have ID 1002");
     }
+
+    @Test
+    void deleteShouldReturnFalseWhenSweetIdNotFound() {
+        SweetService service = new SweetService();
+
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+
+        boolean deleted = service.deleteSweet(9999); // Non-existent ID
+        assertFalse(deleted, "Should return false when trying to delete a sweet that doesn’t exist");
+
+        // Confirm nothing was removed
+        List<Sweet> inventory = service.getAllSweets();
+        assertEquals(1, inventory.size(), "Inventory should remain unchanged");
+        assertEquals(1001, inventory.get(0).getId(), "The original sweet should still exist");
+    }
+
 }
