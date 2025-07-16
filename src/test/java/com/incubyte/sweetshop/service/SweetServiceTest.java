@@ -70,4 +70,16 @@ public class SweetServiceTest {
         assertEquals("Gajar Halwa", result.getName());
     }
 
+    @Test
+    void searchShouldReturnNullIfSweetNotFound() {
+        SweetService service = new SweetService();
+
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 20, 50.0);
+
+        Sweet result = service.searchSweetByName("Rasgulla");
+
+        assertNull(result, "searchSweetByName should return null when sweet is not found");
+    }
+
+
 }
