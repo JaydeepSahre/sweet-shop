@@ -8,7 +8,7 @@ public class SweetService {
      * Adds a new sweet to the inventory.
      * For now, this just returns a new Sweet instance.
      */
-    public Sweet addSweet(String name, int quantity, double price) {
-        return new Sweet(name, quantity, price);
+    public Sweet addSweet(int id, String name, String category, int quantity, double price) {
+        return new Sweet(id, name, category, quantity, price);
     }
 }
