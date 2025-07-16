@@ -26,4 +26,14 @@ public class SweetService {
     public boolean deleteSweet(int id) {
         return inventory.removeIf(sweet -> sweet.getId() == id);
     }
+
+    public Sweet searchSweetByName(String name) {
+        for (Sweet sweet : inventory) {
+            if (sweet.getName().equalsIgnoreCase(name)) {
+                return sweet;
+            }
+        }
+        return null; // If not found
+    }
+
 }
