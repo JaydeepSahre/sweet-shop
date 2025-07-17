@@ -1,31 +1,47 @@
 // src/main/resources/static/app.js
 const apiUrl = '/sweets';
+let allSweets = []; // To store all sweets from backend
 
-document.addEventListener('DOMContentLoaded', fetchSweets);
+document.addEventListener('DOMContentLoaded', () => {
+  fetchSweets();
 
-document.getElementById('sweetForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const sweet = {
-    id: parseInt(document.getElementById('id').value),
-    name: document.getElementById('name').value,
-    category: document.getElementById('category').value,
-    quantity: parseInt(document.getElementById('quantity').value),
-    price: parseFloat(document.getElementById('price').value)
-  };
+  document.getElementById('sweetForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const sweet = {
+      id: parseInt(document.getElementById('id').value),
+      name: document.getElementById('name').value,
+      category: document.getElementById('category').value,
+      quantity: parseInt(document.getElementById('quantity').value),
+      price: parseFloat(document.getElementById('price').value)
+    };
 
-  await fetch(apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(sweet)
+    await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sweet)
+    });
+
+    e.target.reset();
+    fetchSweets();
   });
 
-  e.target.reset();
-  fetchSweets();
+  // Live search listener
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    const filtered = allSweets.filter(sweet =>
+      sweet.name.toLowerCase().includes(query)
+    );
+    renderTable(filtered);
+  });
 });
 
 async function fetchSweets() {
   const response = await fetch(apiUrl);
-  const sweets = await response.json();
+  allSweets = await response.json();
+  renderTable(allSweets);
+}
+
+function renderTable(sweets) {
   const tbody = document.getElementById('sweetTableBody');
   tbody.innerHTML = '';
 

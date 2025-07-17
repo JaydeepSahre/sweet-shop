@@ -21,12 +21,19 @@
         <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Add Sweet</button></div>
     </form>
 
-    <!-- Table -->
+    <!-- Search bar -->
+    <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+            <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search by Name">
+        </div>
+    </div>
+
+    <!-- Sweet Table -->
     <table class="table table-bordered">
         <thead class="table-dark">
-        <tr>
-            <th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Actions</th>
-        </tr>
+            <tr>
+                <th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Actions</th>
+            </tr>
         </thead>
         <tbody id="sweetTableBody"></tbody>
     </table>
