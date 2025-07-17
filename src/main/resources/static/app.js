@@ -1,12 +1,15 @@
 // src/main/resources/static/app.js
 const apiUrl = '/sweets';
-let allSweets = []; // To store all sweets from backend
+let allSweets = []; // Global storage for all sweets
 
+// Run after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
   fetchSweets();
 
+  // Add Sweet Form Submission
   document.getElementById('sweetForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const sweet = {
       id: parseInt(document.getElementById('id').value),
       name: document.getElementById('name').value,
@@ -25,33 +28,29 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchSweets();
   });
 
-  // Live search listener
-  function applySearchFilters() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const minPrice = parseFloat(document.getElementById('minPrice').value);
-    const maxPrice = parseFloat(document.getElementById('maxPrice').value);
-
-    const filtered = allSweets.filter(sweet => {
-      const matchesNameOrCategory =
-        sweet.name.toLowerCase().includes(query) ||
-        sweet.category.toLowerCase().includes(query);
-
-      const matchesMin = isNaN(minPrice) || sweet.price >= minPrice;
-      const matchesMax = isNaN(maxPrice) || sweet.price <= maxPrice;
-
-      return matchesNameOrCategory && matchesMin && matchesMax;
-    });
-
-    renderTable(filtered);
-  }
+ // Listen for input in the search bar
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const filtered = allSweets.filter(sweet =>
+    sweet.name.toLowerCase().includes(query) ||
+    sweet.category.toLowerCase().includes(query) // 🔍 Include category in search
+  );
+  renderTable(filtered);
+});
 
 
+  // Sorting Dropdown
+  document.getElementById('sortBy').addEventListener('change', applySorting);
+});
+
+// Fetch all sweets
 async function fetchSweets() {
   const response = await fetch(apiUrl);
   allSweets = await response.json();
   renderTable(allSweets);
 }
 
+// Render sweets in the table
 function renderTable(sweets) {
   const tbody = document.getElementById('sweetTableBody');
   tbody.innerHTML = '';
@@ -70,11 +69,36 @@ function renderTable(sweets) {
   });
 }
 
+// Sort sweets
+function applySorting() {
+  const sortBy = document.getElementById('sortBy').value;
+  const sorted = [...allSweets];
+
+  switch (sortBy) {
+    case 'price-asc':
+      sorted.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-desc':
+      sorted.sort((a, b) => b.price - a.price);
+      break;
+    case 'quantity-asc':
+      sorted.sort((a, b) => a.quantity - b.quantity);
+      break;
+    case 'quantity-desc':
+      sorted.sort((a, b) => b.quantity - a.quantity);
+      break;
+  }
+
+  renderTable(sorted);
+}
+
+// Delete a sweet
 async function deleteSweet(id) {
   await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
   fetchSweets();
 }
 
+// Purchase a sweet
 async function purchaseSweet(id) {
   const quantity = prompt("Enter quantity to purchase:");
   if (quantity && !isNaN(quantity)) {
