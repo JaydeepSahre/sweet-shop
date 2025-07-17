@@ -36,6 +36,8 @@ All backend logic is covered using JUnit 5 with clean unit tests for:
 - Sweet model behaviors
 - Edge cases like purchase failure, invalid search, etc.
 
+![UI Demo](./assets/ui.png)
+
 Run tests using:
 
 ```bash
@@ -43,4 +45,4 @@ mvn clean test
 
 ## 🖼️ UI Preview
 
-![UI Demo](./assets/ui.png)
+
