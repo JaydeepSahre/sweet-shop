@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sweet Shop Management</title>
+    <style>
+        body { font-family: Arial; margin: 2rem; }
+        h1 { color: #c62828; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
+        table { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<h1>🍬 Sweet Shop Inventory</h1>
+
+<button onclick="fetchSweets()">Load All Sweets</button>
+<table id="sweetsTable">
+    <thead>
+    <tr>
+        <th>ID</th><th>Name</th><th>Category</th><th>Quantity</th><th>Price</th><th>Actions</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h2>Add New Sweet</h2>
+<form id="addSweetForm">
+    ID: <input type="number" id="id"><br>
+    Name: <input type="text" id="name"><br>
+    Category: <input type="text" id="category"><br>
+    Quantity: <input type="number" id="quantity"><br>
+    Price: <input type="number" id="price"><br>
+    <button type="submit">Add Sweet</button>
+</form>
+
+<script src="app.js"></script>
+</body>
+</html>
