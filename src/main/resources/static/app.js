@@ -63,6 +63,7 @@ function renderTable(sweets) {
       <td>
         <button class="btn btn-danger btn-sm" onclick="deleteSweet(${s.id})">Delete</button>
         <button class="btn btn-warning btn-sm" onclick="purchaseSweet(${s.id})">Purchase</button>
+        <button class="btn btn-success btn-sm" onclick="restockSweet(${s.id})">Restock</button>
       </td>
     `;
     tbody.appendChild(row);
@@ -108,3 +109,15 @@ async function purchaseSweet(id) {
     fetchSweets();
   }
 }
+
+// Restock a sweet
+async function restockSweet(id) {
+  const quantity = prompt("Enter quantity to restock:");
+  if (quantity && !isNaN(quantity)) {
+    await fetch(`${apiUrl}/${id}/restock?quantity=${quantity}`, {
+      method: 'PUT'
+    });
+    fetchSweets(); // Refresh table
+  }
+}
+

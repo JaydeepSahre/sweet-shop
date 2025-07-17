@@ -64,15 +64,14 @@ public class SweetController {
         return ResponseEntity.ok(report);
     }
 
-    @PutMapping("/{id}/restock")
+    @PutMapping("/sweets/{id}/restock")
     public ResponseEntity<String> restockSweet(@PathVariable int id, @RequestParam int quantity) {
         boolean success = sweetService.restockSweet(id, quantity);
         if (success) {
             return ResponseEntity.ok("Restock successful");
         } else {
-            return ResponseEntity.badRequest().body("Restock failed: sweet not found or invalid quantity");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sweet not found");
         }
     }
-
 
 }
