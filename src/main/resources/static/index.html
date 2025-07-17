@@ -21,12 +21,22 @@
         <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Add Sweet</button></div>
     </form>
 
-    <!-- Search bar -->
-    <div class="row mb-3">
-        <div class="col-md-4 offset-md-8">
-            <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search by Name">
+    <!-- Search Form -->
+    <div class="row g-2 mb-4">
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search by name or category">
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" id="minPrice" placeholder="Min Price">
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" id="maxPrice" placeholder="Max Price">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100" onclick="applySearchFilters()">Search</button>
         </div>
     </div>
+
 
     <!-- Sweet Table -->
     <table class="table table-bordered">

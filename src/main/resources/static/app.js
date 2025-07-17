@@ -26,14 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Live search listener
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-    const filtered = allSweets.filter(sweet =>
-      sweet.name.toLowerCase().includes(query)
-    );
+  function applySearchFilters() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const minPrice = parseFloat(document.getElementById('minPrice').value);
+    const maxPrice = parseFloat(document.getElementById('maxPrice').value);
+
+    const filtered = allSweets.filter(sweet => {
+      const matchesNameOrCategory =
+        sweet.name.toLowerCase().includes(query) ||
+        sweet.category.toLowerCase().includes(query);
+
+      const matchesMin = isNaN(minPrice) || sweet.price >= minPrice;
+      const matchesMax = isNaN(maxPrice) || sweet.price <= maxPrice;
+
+      return matchesNameOrCategory && matchesMin && matchesMax;
+    });
+
     renderTable(filtered);
-  });
-});
+  }
+
 
 async function fetchSweets() {
   const response = await fetch(apiUrl);
