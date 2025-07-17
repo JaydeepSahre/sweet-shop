@@ -27,3 +27,6 @@ PUT http://localhost:8080/sweets/1006/purchase?quantity=3
 
 ### 5. Verify quantity after purchase
 GET http://localhost:8080/sweets
+
+### 6. Get Inventory Report
+GET http://localhost:8080/sweets/report

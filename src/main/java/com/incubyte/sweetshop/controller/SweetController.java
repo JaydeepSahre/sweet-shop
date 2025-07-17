@@ -57,4 +57,11 @@ public class SweetController {
             return ResponseEntity.badRequest().body("Purchase failed: insufficient stock or sweet not found");
         }
     }
+    
+    @GetMapping("/report")
+public ResponseEntity<String> getInventoryReport() {
+    String report = sweetService.getInventoryReport();
+    return ResponseEntity.ok(report);
+}
+
 }
