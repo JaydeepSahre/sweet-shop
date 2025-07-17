@@ -36,7 +36,7 @@ All backend logic is covered using JUnit 5 with clean unit tests for:
 - Sweet model behaviors
 - Edge cases like purchase failure, invalid search, etc.
 
-![UI Demo](./assets/ui.png)
+![UI Demo](./src/main/resources/static/assets/ui.png)
 
 Run tests using:
 
