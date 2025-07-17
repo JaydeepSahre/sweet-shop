@@ -116,4 +116,24 @@ public class SweetServiceTest {
 
         assertEquals(expected, report.trim());
     }
+
+    @Test
+    void shouldIncreaseQuantityWhenRestocked() {
+        service.addSweet(1001, "Kaju Katli", "Nut-Based", 10, 50.0);
+
+        boolean result = service.restockSweet(1001, 5);
+
+        assertTrue(result, "Restock should succeed");
+        Sweet updated = service.searchSweetByName("Kaju Katli");
+        assertEquals(15, updated.getQuantity(), "Quantity should increase after restocking");
+    }
+
+    @Test
+    void restockShouldReturnFalseIfSweetNotFoundOrInvalidQty() {
+
+        assertFalse(service.restockSweet(999, 10), "Should return false if sweet not found");
+        service.addSweet(1002, "Ladoo", "Gram-Based", 5, 20.0);
+        assertFalse(service.restockSweet(1002, -5), "Should return false for invalid quantity");
+    }
+
 }
