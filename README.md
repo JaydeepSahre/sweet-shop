@@ -1,36 +1,46 @@
-# Sweet Shop Management System
+# 🍬 Sweet Shop Management System
 
-**Kata:** Sweet Shop Management System  
-**Assessment Round:** Incubyte
+A Test-Driven Development (TDD) based full-stack Java project to manage an inventory of sweets.  
+Developed as part of the **Incubyte assessment round**, this app follows **SOLID principles**, RESTful architecture, and uses **Spring Boot + Bootstrap**.
 
-## Project Overview
+---
 
-A small management system for a sweet shop, implementing core operations:
+## 🛠 Tech Stack
 
-- **Backend:** Java (Spring Boot)
-    - TDD with JUnit 5
-    - SOLID principles
-    - RESTful APIs under `/api/sweets`
-- **Frontend:** Static HTML/CSS + Bootstrap
-    - Served from `src/main/resources/static`
-    - Uses `fetch()` to call Java APIs
+- **Backend**: Java, Spring Boot
+- **Frontend**: HTML, CSS, Bootstrap 5, JavaScript (Vanilla)
+- **Build Tool**: Maven
+- **Testing**: JUnit 5 (TDD approach)
+- **API Design**: REST (Spring Boot Controllers)
+- **In-memory Storage**: Custom repository (No DB used)
 
-## Prerequisites
+---
 
-- Java 11+ (JDK)
-- Maven 3.6+
-- Git 2.47.1+
-- IntelliJ IDEA (or VS Code)
+## 🚀 Features
 
-## Setup
+- ✅ Add new sweets to inventory
+- ✅ View all sweets
+- ✅ Search sweets by name or category
+- ✅ Sort sweets by price and quantity
+- ✅ Purchase sweets (decrease quantity)
+- ✅ Delete sweets
+- ✅ Restock sweets (increase quantity)
+
+---
+
+## 🧪 Test-Driven Development (TDD)
+
+All backend logic is covered using JUnit 5 with clean unit tests for:
+
+- SweetService
+- Sweet model behaviors
+- Edge cases like purchase failure, invalid search, etc.
+
+Run tests using:
 
 ```bash
-# clone your repo (once pushed)
-git clone https://github.com/<your‑username>/sweet-shop.git
-cd sweet-shop
+mvn clean test
 
-# to build & run backend
-mvn spring-boot:run
+## 🖼️ UI Preview
 
-# to view frontend
-open http://localhost:8080/index.html
+![UI Demo](./assets/ui.png)
