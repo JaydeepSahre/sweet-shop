@@ -59,9 +59,20 @@ public class SweetController {
     }
     
     @GetMapping("/report")
-public ResponseEntity<String> getInventoryReport() {
-    String report = sweetService.getInventoryReport();
-    return ResponseEntity.ok(report);
-}
+    public ResponseEntity<String> getInventoryReport() {
+        String report = sweetService.getInventoryReport();
+        return ResponseEntity.ok(report);
+    }
+
+    @PutMapping("/{id}/restock")
+    public ResponseEntity<String> restockSweet(@PathVariable int id, @RequestParam int quantity) {
+        boolean success = sweetService.restockSweet(id, quantity);
+        if (success) {
+            return ResponseEntity.ok("Restock successful");
+        } else {
+            return ResponseEntity.badRequest().body("Restock failed: sweet not found or invalid quantity");
+        }
+    }
+
 
 }
