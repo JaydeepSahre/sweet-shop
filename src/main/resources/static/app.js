@@ -1,55 +1,59 @@
-const api = "http://localhost:8080/sweets";
+// src/main/resources/static/app.js
+const apiUrl = '/sweets';
 
-function fetchSweets() {
-    fetch(api)
-        .then(res => res.json())
-        .then(data => {
-            const tbody = document.querySelector("#sweetsTable tbody");
-            tbody.innerHTML = "";
-            data.forEach(sweet => {
-                const row = `<tr>
-                    <td>${sweet.id}</td>
-                    <td>${sweet.name}</td>
-                    <td>${sweet.category}</td>
-                    <td>${sweet.quantity}</td>
-                    <td>${sweet.price}</td>
-                    <td>
-                        <button onclick="deleteSweet(${sweet.id})">Delete</button>
-                        <button onclick="purchaseSweet(${sweet.id})">Purchase</button>
-                    </td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        });
-}
+document.addEventListener('DOMContentLoaded', fetchSweets);
 
-document.getElementById("addSweetForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const sweet = {
-        id: document.getElementById("id").value,
-        name: document.getElementById("name").value,
-        category: document.getElementById("category").value,
-        quantity: document.getElementById("quantity").value,
-        price: document.getElementById("price").value
-    };
+document.getElementById('sweetForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const sweet = {
+    id: parseInt(document.getElementById('id').value),
+    name: document.getElementById('name').value,
+    category: document.getElementById('category').value,
+    quantity: parseInt(document.getElementById('quantity').value),
+    price: parseFloat(document.getElementById('price').value)
+  };
 
-    fetch(api, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sweet)
-    }).then(() => {
-        fetchSweets();
-        this.reset();
-    });
+  await fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(sweet)
+  });
+
+  e.target.reset();
+  fetchSweets();
 });
 
-function deleteSweet(id) {
-    fetch(`${api}/${id}`, { method: "DELETE" }).then(fetchSweets);
+async function fetchSweets() {
+  const response = await fetch(apiUrl);
+  const sweets = await response.json();
+  const tbody = document.getElementById('sweetTableBody');
+  tbody.innerHTML = '';
+
+  sweets.forEach(s => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${s.id}</td><td>${s.name}</td><td>${s.category}</td>
+      <td>${s.price}</td><td>${s.quantity}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" onclick="deleteSweet(${s.id})">Delete</button>
+        <button class="btn btn-warning btn-sm" onclick="purchaseSweet(${s.id})">Purchase</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
-function purchaseSweet(id) {
-    const qty = prompt("Enter quantity to purchase:");
-    fetch(`${api}/${id}/purchase?quantity=${qty}`, {
-        method: "PUT"
-    }).then(fetchSweets);
+async function deleteSweet(id) {
+  await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+  fetchSweets();
+}
+
+async function purchaseSweet(id) {
+  const quantity = prompt("Enter quantity to purchase:");
+  if (quantity && !isNaN(quantity)) {
+    await fetch(`${apiUrl}/${id}/purchase?quantity=${quantity}`, {
+      method: 'PUT'
+    });
+    fetchSweets();
+  }
 }

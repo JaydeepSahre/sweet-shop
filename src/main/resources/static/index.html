@@ -1,37 +1,36 @@
+<!-- src/main/resources/static/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sweet Shop Management</title>
-    <style>
-        body { font-family: Arial; margin: 2rem; }
-        h1 { color: #c62828; }
-        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
-        table { margin-bottom: 20px; }
-    </style>
+    <title>Sweet Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<h1>🍬 Sweet Shop Inventory</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">🍬 Sweet Shop Inventory</h1>
 
-<button onclick="fetchSweets()">Load All Sweets</button>
-<table id="sweetsTable">
-    <thead>
-    <tr>
-        <th>ID</th><th>Name</th><th>Category</th><th>Quantity</th><th>Price</th><th>Actions</th>
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+    <!-- Add Sweet Form -->
+    <form id="sweetForm" class="row g-3 mb-4">
+        <div class="col-md-2"><input type="number" class="form-control" placeholder="ID" id="id" required></div>
+        <div class="col-md-2"><input type="text" class="form-control" placeholder="Name" id="name" required></div>
+        <div class="col-md-2"><input type="text" class="form-control" placeholder="Category" id="category" required></div>
+        <div class="col-md-2"><input type="number" class="form-control" placeholder="Quantity" id="quantity" required></div>
+        <div class="col-md-2"><input type="number" class="form-control" placeholder="Price" id="price" required></div>
+        <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Add Sweet</button></div>
+    </form>
 
-<h2>Add New Sweet</h2>
-<form id="addSweetForm">
-    ID: <input type="number" id="id"><br>
-    Name: <input type="text" id="name"><br>
-    Category: <input type="text" id="category"><br>
-    Quantity: <input type="number" id="quantity"><br>
-    Price: <input type="number" id="price"><br>
-    <button type="submit">Add Sweet</button>
-</form>
+    <!-- Table -->
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="sweetTableBody"></tbody>
+    </table>
+</div>
 
 <script src="app.js"></script>
 </body>
