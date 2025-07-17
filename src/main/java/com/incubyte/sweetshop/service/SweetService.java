@@ -56,4 +56,12 @@ public class SweetService {
 
         return sb.toString().trim();
     }
+
+    public boolean restockSweet(int id, int quantity) {
+        Sweet sweet = repository.findById(id);
+        if (sweet == null || quantity <= 0) return false;
+        sweet.setQuantity(sweet.getQuantity() + quantity);
+        return true;
+    }
+
 }
