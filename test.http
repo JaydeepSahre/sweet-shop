@@ -1,0 +1,18 @@
+### Get all sweets
+GET http://localhost:8080/sweets
+
+### Add a new sweet
+POST http://localhost:8080/sweets
+Content-Type: application/json
+
+### Delete sweet by ID
+DELETE http://localhost:8080/sweets/1005
+
+
+{
+  "id": 1006,
+  "name": "Rasgulla",
+  "category": "Milk-Based",
+  "quantity": 30,
+  "price": 15.0
+}

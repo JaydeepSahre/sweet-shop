@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+
 @RestController
 @RequestMapping("/sweets")
 public class SweetController {
@@ -33,5 +37,16 @@ public class SweetController {
                 sweet.getPrice()
         );
     }
+
+    @DeleteMapping("/sweets/{id}")
+    public ResponseEntity<String> deleteSweet(@PathVariable int id) {
+        boolean deleted = service.deleteSweet(id);
+        if (deleted) {
+            return ResponseEntity.ok("Sweet deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sweet not found.");
+        }
+    }
+
 
 }

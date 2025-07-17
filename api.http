@@ -1,0 +1,19 @@
+### Test GET all sweets
+GET http://localhost:8080/sweets
+
+###
+
+### Add sweet
+POST http://localhost:8080/sweets
+Content-Type: application/json
+
+DELETE http://localhost:8080/sweets/1005
+
+
+{
+  "id": 1005,
+  "name": "Barfi",
+  "category": "Milk-Based",
+  "quantity": 12,
+  "price": 25.0
+}
