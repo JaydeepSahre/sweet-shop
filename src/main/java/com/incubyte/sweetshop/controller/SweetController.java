@@ -10,7 +10,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
 @RestController
 @RequestMapping("/sweets")
 public class SweetController {
@@ -18,7 +17,6 @@ public class SweetController {
     private final SweetService sweetService;
 
     public SweetController() {
-        // In-memory repository setup for now
         this.sweetService = new SweetService(new InMemorySweetRepository());
     }
 
@@ -38,9 +36,9 @@ public class SweetController {
         );
     }
 
-    @DeleteMapping("/sweets/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSweet(@PathVariable int id) {
-        boolean deleted = service.deleteSweet(id);
+        boolean deleted = sweetService.deleteSweet(id); // also fixed typo: was `service`
         if (deleted) {
             return ResponseEntity.ok("Sweet deleted successfully.");
         } else {
@@ -48,5 +46,15 @@ public class SweetController {
         }
     }
 
-
+    @PutMapping("/{id}/purchase")
+    public ResponseEntity<String> purchaseSweet(
+            @PathVariable int id,
+            @RequestParam int quantity) {
+        boolean success = sweetService.purchaseSweet(id, quantity);
+        if (success) {
+            return ResponseEntity.ok("Purchase successful");
+        } else {
+            return ResponseEntity.badRequest().body("Purchase failed: insufficient stock or sweet not found");
+        }
+    }
 }

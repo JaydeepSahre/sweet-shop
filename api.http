@@ -1,14 +1,6 @@
-### Test GET all sweets
-GET http://localhost:8080/sweets
-
-###
-
-### Add sweet
+### 1. Add a new sweet
 POST http://localhost:8080/sweets
 Content-Type: application/json
-
-DELETE http://localhost:8080/sweets/1005
-
 
 {
   "id": 1005,
@@ -17,3 +9,21 @@ DELETE http://localhost:8080/sweets/1005
   "quantity": 12,
   "price": 25.0
 }
+
+###
+
+### 2. Get all sweets
+GET http://localhost:8080/sweets
+
+###
+
+### 3. Delete sweet by ID
+DELETE http://localhost:8080/sweets/1005
+
+### 4. Purchase 3 units of Barfi (ID: 1006)
+PUT http://localhost:8080/sweets/1006/purchase?quantity=3
+
+###
+
+### 5. Verify quantity after purchase
+GET http://localhost:8080/sweets
