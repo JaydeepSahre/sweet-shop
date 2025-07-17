@@ -22,4 +22,16 @@ public class SweetController {
     public List<Sweet> getAllSweets() {
         return sweetService.getAllSweets();
     }
+
+    @PostMapping
+    public Sweet addSweet(@RequestBody Sweet sweet) {
+        return sweetService.addSweet(
+                sweet.getId(),
+                sweet.getName(),
+                sweet.getCategory(),
+                sweet.getQuantity(),
+                sweet.getPrice()
+        );
+    }
+
 }
